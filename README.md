@@ -14,7 +14,7 @@ Simple Callout View for react-native which can be used on both iOS/Android
 
 ### Installation
 ```bash
-npm install react-native-material-switch
+npm install react-native-callout
 ```
 
 ### Usage example
