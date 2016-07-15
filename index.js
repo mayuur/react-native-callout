@@ -102,10 +102,10 @@ class calloutExample extends Component {
         this.setState({
           calloutText:'Left Side Callout',
           calloutOpacity: new Animated.Value(1),
-          arrowPosition:'right',
+          arrowPosition:'left',
           calloutTop:py+5,
-          calloutLeft:px+115,
-          calloutWidth:170,
+          calloutLeft:px-85,
+          calloutWidth:175,
         })
       })
     }
@@ -114,9 +114,9 @@ class calloutExample extends Component {
         this.setState({
           calloutText:'Right Side Callout',
           calloutOpacity: new Animated.Value(1),
-          arrowPosition:'left',
+          arrowPosition:'right',
           calloutTop:py+5,
-          calloutLeft:px-85,
+          calloutLeft:px+120,
           calloutWidth:175,
         })
       })
