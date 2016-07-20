@@ -1,6 +1,6 @@
 {
   "name": "react-native-callout",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Simple Callout View for react-native which can be used on both iOS/Android",
   "main": "index.js",
   "private": false,
