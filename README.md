@@ -46,8 +46,8 @@ var Application = React.createClass({
 
 ### Live example
 ```sh
-git clone git@github.com:mayuur/react-native-callout.git
-cd react-native-callout
+git clone https://github.com/mayuur/react-native-callout.git
+cd react-native-callout/examples
 npm install
 react-native run-ios
 OR
