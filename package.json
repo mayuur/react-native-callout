@@ -1,6 +1,6 @@
 {
-  "name": "react-native-callout",
-  "version": "0.0.5",
+  "name": "react-native-custom-callout",
+  "version": "0.0.1",
   "description": "Simple Callout View for react-native which can be used on both iOS/Android",
   "main": "index.js",
   "private": false,
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/mayuur/react-native-callout.git"
+    "url": "git+ssh://git@github.com/mayuur/react-native-custom-callout.git"
   },
   "keywords": [
     "react-native",
@@ -25,9 +25,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mayuur/react-native-callout/issues"
+    "url": "https://github.com/mayuur/react-native-custom-callout/issues"
   },
-  "homepage": "https://github.com/mayuur/react-native-callout",
+  "homepage": "https://github.com/mayuur/react-native-custom-callout",
   "peerDependencies": {
     "react-native": ">= 0.9.0 || 0.11.0-rc"
   }
