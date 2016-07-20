@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 let { screenWidth, screenHeight } = Dimensions.get('window');
-var MJCallout = require('../index.js').default;
+var MJCallout = require('react-native-callout');
 
 class calloutExample extends Component {
   constructor(props) {
