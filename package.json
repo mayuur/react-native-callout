@@ -1,6 +1,6 @@
 {
   "name": "react-native-callout",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "description": "Simple Callout View for react-native which can be used on both iOS/Android",
   "main": "index.js",
   "private": false,
@@ -20,7 +20,6 @@
   ],
   "author": {
     "name": "Mayur Joshi",
-    "email": "mayurjoshi7@gmail.com",
     "url": "https://github.com/mayuur"
   },
   "license": "MIT",

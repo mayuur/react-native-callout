@@ -2,7 +2,7 @@
 Simple Callout View for react-native which can be used on both iOS/Android
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/mayuur/react-native-callout/master/Demo.gif"/>
+  <img src="https://raw.githubusercontent.com/mayuur/react-native-callout/master/examples/Demo.gif"/>
 </p>
 
 ### Content
@@ -60,5 +60,5 @@ MIT License
 
 ### Questions?
 Feel free to [create an issue](https://github.com/mayuur/react-native-callout/issues)
-or 
+or
 Talk to me [@mayuur](https://twitter.com/mayuur)
