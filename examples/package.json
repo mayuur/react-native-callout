@@ -1,0 +1,13 @@
+{
+  "name": "react-native-callout",
+  "version": "0.0.5",
+  "description": "Simple Callout View for react-native which can be used on both iOS/Android",
+  "private": false,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "react": "15.2.0",
+    "react-native": "^0.29.0"
+  }
+}

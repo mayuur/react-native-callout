@@ -1,179 +1,175 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   StyleSheet,
   Text,
+  View,
+  TextInput,
+  TouchableWithoutFeedback,
   TouchableHighlight,
   Animated,
-  View,
-  Dimensions,
 } from 'react-native';
 
-let { screenWidth, screenHeight } = Dimensions.get('window')
-var MJCallout = require('./MJCallout');
 
-class calloutExample extends Component {
+class MJCallout extends Component {
+
   constructor(props) {
     super(props);
-
-    this.topButton = TouchableHighlight;
-    this.state = {
-      calloutOpacity: new Animated.Value(0),
-      calloutText: 'Sample Callout Text',
-      calloutTop:0,
-      calloutLeft:0,
-      calloutWidth:200,
-      arrowPosition:'up',
-    };
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.headerText}>
-          MJCallout Example
-        </Text>
-        <View style = {styles.buttonsView}>
-          <TouchableHighlight
-            ref = {component => this.topButton = component}
-            style={[styles.buttonCallout, styles.buttonTop]} onPress={this.buttonClicked.bind(this,0)}>
-            <Text style={styles.buttonText}> Top </Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            ref = {component => this.leftButton = component}
-            style={styles.buttonCallout} onPress={this.buttonClicked.bind(this,1)}>
-            <Text style={styles.buttonText}> Left </Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            ref = {component => this.rightButton = component}
-            style={styles.buttonCallout} onPress={this.buttonClicked.bind(this,2)}>
-            <Text style={styles.buttonText}> Right </Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            ref = {component => this.downButton = component}
-            style={styles.buttonCallout} onPress={this.buttonClicked.bind(this,3)}>
-            <Text style={styles.buttonText}> Bottom </Text>
-          </TouchableHighlight>
-        </View>
-
-        {this.renderCallOut()}
-      </View>
-    );
-  }
-
-  renderCallOut() {
-    //show callout only when needed
-    if(!this.state.calloutOpacity) {
-      return
-    }
-
-    //add callout if needed
-    return (
-      <View style={{position:'absolute', top:this.state.calloutTop, left:this.state.calloutLeft}}>
-        <MJCallout width={this.state.calloutWidth} visibility={this.state.calloutOpacity} calloutText={this.state.calloutText} arrowDirection={this.state.arrowPosition}>
-        </MJCallout>
+      <View>
+      {this.renderCallOutSubviews()}
       </View>
     )
   }
 
-  buttonClicked(index) {
-    var calloutX = 0;
-    var calloutY = 0;
-    if(index == 0) {
-      this.topButton.measure( (fx, fy, width, height, px, py) => {
-        this.setState({
-          calloutText:'Callout at top position',
-          calloutOpacity: new Animated.Value(1),
-          arrowPosition:'down',
-          calloutTop:py-30,
-          calloutLeft:px,
-          calloutWidth:190,
-        })
-      })
+  renderCallOutSubviews() {
+    if(this.props.arrowDirection == 'up') {
+      return (
+        <Animated.View style={[styles.container, styles.flexDirectionColumn,
+          {
+            opacity: this.props.visibility,
+            width:this.props.width,
+          }
+        ]}>
+          <View style = {styles.calloutTriangle}>
+          </View>
+
+          <View style = {styles.calloutSquare}>
+            <Text style={styles.labelHeader}>
+              {this.props.calloutText}
+            </Text>
+          </View>
+        </Animated.View>
+      );
     }
-    else if(index == 1) {
-      this.leftButton.measure( (fx, fy, width, height, px, py) => {
-        this.setState({
-          calloutText:'Left Side Callout',
-          calloutOpacity: new Animated.Value(1),
-          arrowPosition:'left',
-          calloutTop:py+5,
-          calloutLeft:px-85,
-          calloutWidth:175,
-        })
-      })
+    else if(this.props.arrowDirection == 'down') {
+      return (
+        <Animated.View style={[styles.container, styles.flexDirectionColumn,
+          {
+            opacity: this.props.visibility,
+            width:this.props.width,
+          }
+        ]}>
+          <View style = {styles.calloutSquare}>
+            <Text style={styles.labelHeader}>{this.props.calloutText}</Text>
+          </View>
+
+          <View style = {[styles.calloutTriangle, styles.transformTriangleDown]}>
+          </View>
+        </Animated.View>
+      );
     }
-    else if(index == 2) {
-      this.rightButton.measure( (fx, fy, width, height, px, py) => {
-        this.setState({
-          calloutText:'Right Side Callout',
-          calloutOpacity: new Animated.Value(1),
-          arrowPosition:'right',
-          calloutTop:py+5,
-          calloutLeft:px+120,
-          calloutWidth:175,
-        })
-      })
+    else if(this.props.arrowDirection == 'right'){
+      return (
+        <Animated.View style={[styles.container,
+          {
+            opacity: this.props.visibility,
+            width:this.props.width,
+          }
+        ]}>
+          <View style = {[styles.calloutTriangle, styles.transformTriangleRight]}>
+          </View>
+
+          <View style = {styles.calloutSquare}>
+            <Text style={styles.labelHeader}>
+              {this.props.calloutText}
+            </Text>
+          </View>
+        </Animated.View>
+      );
     }
-    else if(index == 3) {
-      this.downButton.measure( (fx, fy, width, height, px, py) => {
-        this.setState({
-          calloutText:'Callout at down position',
-          calloutOpacity: new Animated.Value(1),
-          arrowPosition:'up',
-          calloutTop:py+55,
-          calloutLeft:px,
-          calloutWidth:200,
-        })
-      })
+    else {
+      return (
+        <Animated.View style={[styles.container,
+          {
+            opacity: this.props.visibility,
+            width:this.props.width,
+          }
+        ]}>
+          <View style = {styles.calloutSquare}>
+            <Text style={styles.labelHeader}>{this.props.calloutText}</Text>
+          </View>
+
+          <View style = {[styles.calloutTriangle, styles.transformTriangleLeft]}>
+          </View>
+        </Animated.View>
+      );
     }
   }
 }
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
   },
-  headerText: {
-    marginTop:30,
-    fontSize: 30,
-    fontWeight: '300',
-    height:50,
+
+  flexDirectionColumn: {
+    width:300,
+    marginTop:-18,
+    flexDirection: 'column',
   },
-  buttonsView: {
+
+  calloutSquare: {
+    backgroundColor: '#EF4836',
     flex:1,
-    alignSelf:'stretch',
-    justifyContent:'center',
-    alignItems:'center',
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    borderRadius: 8,
+    height:40,
   },
-  buttonCallout: {
-    marginTop:20,
-    justifyContent:'center',
-    alignItems:'center',
-    backgroundColor:'green',
-    width:200,
-    height: 50,
 
-    borderColor: 'black',
-    borderWidth:2,
-    borderRadius:10,
-    backgroundColor:'green',
-  },
-  buttonTop : {
-    marginTop:-50,
-  },
-  buttonText: {
-    textAlign:'center',
-    color:'white',
-  },
-});
+  calloutTriangle: {
+    backgroundColor: 'transparent',
+    width: 20,
+    height: 20,
 
-AppRegistry.registerComponent('calloutExample', () => calloutExample);
+    alignSelf:'center',
+    marginLeft: 20,
+
+    borderStyle: 'solid',
+    borderBottomColor: '#EF4836',
+    borderBottomWidth:15,
+
+    borderLeftWidth:10,
+    borderLeftColor: 'transparent',
+
+    borderRightWidth:10,
+    borderRightColor: 'transparent',
+  },
+
+  transformTriangleDown: {
+    transform: [
+      {rotate: '180deg'}
+    ]
+  },
+
+  transformTriangleLeft: {
+    marginLeft:-5,
+    marginRight:-1,
+    alignSelf:'center',
+    transform: [
+      {rotate: '90deg'}
+    ]
+  },
+
+  transformTriangleRight: {
+    marginLeft:-5,
+    marginRight:-1,
+    alignSelf:'center',
+    transform: [
+      {rotate: '270deg'}
+    ]
+  },
+
+  labelHeader : {
+    margin: 20,
+    color: 'white',
+    fontWeight: '500',
+  },
+})
+
+MJCallout.propTypes = {arrowDirection: React.PropTypes.oneOf(['up', 'down', 'left', 'right'])};
+module.exports = MJCallout;
