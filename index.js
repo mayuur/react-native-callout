@@ -3,14 +3,18 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
-  TouchableWithoutFeedback,
-  TouchableHighlight,
   Animated,
 } from 'react-native';
 
 
 class MJCallout extends Component {
+
+  static defaultProps = {
+      backgroundColor: '#EF4836',
+      textStyle:{},
+      caretStyle:{},
+      calloutSquareStyle: {}
+  };
 
   constructor(props) {
     super(props);
@@ -24,7 +28,18 @@ class MJCallout extends Component {
     )
   }
 
-  renderCallOutSubviews() {
+  renderCallOutInner = () => {
+    if(this.props.calloutView){
+      return this.props.calloutView
+    }
+    return (
+      <Text style={[styles.labelHeader, this.props.textStyle]}>
+        {this.props.calloutText}
+      </Text>
+    )
+  }
+
+  renderCallOutSubviews = () => {
     if(this.props.arrowDirection == 'up') {
       return (
         <Animated.View style={[styles.container, styles.flexDirectionColumn,
@@ -33,13 +48,19 @@ class MJCallout extends Component {
             width:this.props.width,
           }
         ]}>
-          <View style = {styles.calloutTriangle}>
+          <View
+            style = {[
+              styles.calloutTriangle, {borderBottomColor:this.props.backgroundColor},
+              this.props.caretStyle
+            ]}>
           </View>
 
-          <View style = {styles.calloutSquare}>
-            <Text style={styles.labelHeader}>
-              {this.props.calloutText}
-            </Text>
+          <View
+            style = {[
+              styles.calloutSquare, {backgroundColor:this.props.backgroundColor},
+              this.props.calloutSquareStyle
+            ]}>
+            {this.renderCallOutInner()}
           </View>
         </Animated.View>
       );
@@ -52,11 +73,18 @@ class MJCallout extends Component {
             width:this.props.width,
           }
         ]}>
-          <View style = {styles.calloutSquare}>
-            <Text style={styles.labelHeader}>{this.props.calloutText}</Text>
+          <View
+            style = {[
+              styles.calloutSquare, {backgroundColor:this.props.backgroundColor},
+              this.props.calloutSquareStyle
+            ]}>
+            {this.renderCallOutInner()}
           </View>
 
-          <View style = {[styles.calloutTriangle, styles.transformTriangleDown]}>
+          <View style = {[
+              styles.calloutTriangle, styles.transformTriangleDown,
+              {borderBottomColor:this.props.backgroundColor}, this.props.caretStyle
+            ]}>
           </View>
         </Animated.View>
       );
@@ -69,13 +97,18 @@ class MJCallout extends Component {
             width:this.props.width,
           }
         ]}>
-          <View style = {[styles.calloutTriangle, styles.transformTriangleRight]}>
+          <View style = {[
+              styles.calloutTriangle, styles.transformTriangleRight,
+              {borderBottomColor:this.props.backgroundColor}, this.props.caretStyle
+            ]}>
           </View>
 
-          <View style = {styles.calloutSquare}>
-            <Text style={styles.labelHeader}>
-              {this.props.calloutText}
-            </Text>
+          <View
+            style = {[
+              styles.calloutSquare, {backgroundColor:this.props.backgroundColor},
+              this.props.calloutSquareStyle
+            ]}>
+            {this.renderCallOutInner()}
           </View>
         </Animated.View>
       );
@@ -88,11 +121,18 @@ class MJCallout extends Component {
             width:this.props.width,
           }
         ]}>
-          <View style = {styles.calloutSquare}>
-            <Text style={styles.labelHeader}>{this.props.calloutText}</Text>
+          <View
+            style = {[
+              styles.calloutSquare, {backgroundColor:this.props.backgroundColor},
+              this.props.calloutSquareStyle
+            ]}>
+            {this.renderCallOutInner()}
           </View>
 
-          <View style = {[styles.calloutTriangle, styles.transformTriangleLeft]}>
+          <View style = {[
+              styles.calloutTriangle, styles.transformTriangleLeft,
+              {borderBottomColor:this.props.backgroundColor}, this.props.caretStyle
+            ]}>
           </View>
         </Animated.View>
       );
@@ -118,7 +158,7 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center',
     borderRadius: 8,
-    height:40,
+    // height:40,
   },
 
   calloutTriangle: {
