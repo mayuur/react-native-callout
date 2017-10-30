@@ -1,37 +1,24 @@
 import React, { Component } from 'react';
 import {
+  Animated,
   StyleSheet,
   Text,
   View,
-  Animated,
 } from 'react-native';
 
-
-class MJCallout extends Component {
-
+export default class MJCallout extends Component {
   static defaultProps = {
-      backgroundColor: '#EF4836',
-      textStyle:{},
-      caretStyle:{},
-      calloutSquareStyle: {}
+    backgroundColor: 'black',
+    textStyle: {},
+    caretStyle: {},
+    calloutSquareStyle: {},
   };
 
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <View>
-      {this.renderCallOutSubviews()}
-      </View>
-    )
-  }
-
   renderCallOutInner = () => {
-    if(this.props.calloutView){
+    if (this.props.calloutView) {
       return this.props.calloutView
     }
+
     return (
       <Text style={[styles.labelHeader, this.props.textStyle]}>
         {this.props.calloutText}
@@ -39,177 +26,169 @@ class MJCallout extends Component {
     )
   }
 
+  renderButton = () => {
+    const { buttonTitle, buttonColor } = this.props;
+
+    return (
+      <View style={[styles.button, { backgroundColor: buttonColor }]}>
+        <Text style={styles.buttonTitle}>
+          {`${buttonTitle}`}
+        </Text>
+      </View>
+    )
+  }
+
   renderCallOutSubviews = () => {
-    if(this.props.arrowDirection == 'up') {
-      return (
-        <Animated.View style={[styles.container, styles.flexDirectionColumn,
-          {
-            opacity: this.props.visibility,
-            width:this.props.width,
-          }
-        ]}>
-          <View
-            style = {[
-              styles.calloutTriangle, {borderBottomColor:this.props.backgroundColor},
-              this.props.caretStyle
-            ]}>
-          </View>
+    const containerStyle = [
+      styles.container,
+      { opacity: this.props.visibility, width: this.props.width },
+    ];
 
-          <View
-            style = {[
-              styles.calloutSquare, {backgroundColor:this.props.backgroundColor},
-              this.props.calloutSquareStyle
-            ]}>
+    const triangleStyle = [
+      styles.calloutTriangle,
+      { borderBottomColor: this.props.buttonTitle && this.props.buttonColor && this.props.arrowDirection === 'down' ? this.props.buttonColor : this.props.backgroundColor },
+    ];
+
+    const calloutStyle = [
+      styles.calloutSquare,
+      { backgroundColor: this.props.backgroundColor },
+    ];
+
+    switch (this.props.arrowDirection) {
+      case 'up': {
+        containerStyle.push(styles.flexDirectionColumn);
+        break;
+      }
+
+      case 'down': {
+        containerStyle.push(styles.flexDirectionColumn);
+        triangleStyle.push(styles.transformTriangleDown);
+        break;
+      }
+
+      case 'left': {
+        triangleStyle.push(styles.transformTriangleLeft);
+        break;
+      }
+
+      case 'right': {
+        triangleStyle.push(styles.transformTriangleRight);
+        break;
+      }
+
+      default:
+
+    }
+
+    triangleStyle.push(this.props.caretStyle);
+    calloutStyle.push(this.props.calloutSquareStyle);
+
+    if (['up', 'right'].includes(this.props.arrowDirection)) {
+      return (
+        <Animated.View style={containerStyle}>
+          <View style={triangleStyle}/>
+          <View style={calloutStyle}>
             {this.renderCallOutInner()}
+            {this.props.buttonTitle && this.renderButton()}
           </View>
         </Animated.View>
       );
-    }
-    else if(this.props.arrowDirection == 'down') {
+    } else if (['down', 'left'].includes(this.props.arrowDirection)) {
       return (
-        <Animated.View style={[styles.container, styles.flexDirectionColumn,
-          {
-            opacity: this.props.visibility,
-            width:this.props.width,
-          }
-        ]}>
-          <View
-            style = {[
-              styles.calloutSquare, {backgroundColor:this.props.backgroundColor},
-              this.props.calloutSquareStyle
-            ]}>
+        <Animated.View style={containerStyle}>
+          <View style={calloutStyle}>
             {this.renderCallOutInner()}
+            {this.props.buttonTitle && this.renderButton()}
           </View>
-
-          <View style = {[
-              styles.calloutTriangle, styles.transformTriangleDown,
-              {borderBottomColor:this.props.backgroundColor}, this.props.caretStyle
-            ]}>
-          </View>
+          <View style={triangleStyle}/>
         </Animated.View>
       );
     }
-    else if(this.props.arrowDirection == 'right'){
-      return (
-        <Animated.View style={[styles.container,
-          {
-            opacity: this.props.visibility,
-            width:this.props.width,
-          }
-        ]}>
-          <View style = {[
-              styles.calloutTriangle, styles.transformTriangleRight,
-              {borderBottomColor:this.props.backgroundColor}, this.props.caretStyle
-            ]}>
-          </View>
 
-          <View
-            style = {[
-              styles.calloutSquare, {backgroundColor:this.props.backgroundColor},
-              this.props.calloutSquareStyle
-            ]}>
-            {this.renderCallOutInner()}
-          </View>
-        </Animated.View>
-      );
-    }
-    else {
-      return (
-        <Animated.View style={[styles.container,
-          {
-            opacity: this.props.visibility,
-            width:this.props.width,
-          }
-        ]}>
-          <View
-            style = {[
-              styles.calloutSquare, {backgroundColor:this.props.backgroundColor},
-              this.props.calloutSquareStyle
-            ]}>
-            {this.renderCallOutInner()}
-          </View>
+    return null; // arrowDirection prop is incorrect
+  }
 
-          <View style = {[
-              styles.calloutTriangle, styles.transformTriangleLeft,
-              {borderBottomColor:this.props.backgroundColor}, this.props.caretStyle
-            ]}>
-          </View>
-        </Animated.View>
-      );
-    }
+  render() {
+    return (
+      <View onLayout={event => {
+          if (this.props.onLayout) {
+            this.props.onLayout(event);
+          }
+        }}>
+        {this.renderCallOutSubviews()}
+      </View>
+    )
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     alignItems: 'flex-start',
     flexDirection: 'row',
   },
-
   flexDirectionColumn: {
-    width:300,
-    marginTop:-18,
+    marginTop: -18,
+    marginHorizontal: 15,
     flexDirection: 'column',
   },
-
   calloutSquare: {
-    backgroundColor: '#EF4836',
-    flex:1,
+    backgroundColor: 'black',
+    flex: 1,
     alignSelf: 'stretch',
     justifyContent: 'center',
     borderRadius: 8,
-    // height:40,
   },
-
   calloutTriangle: {
     backgroundColor: 'transparent',
     width: 20,
     height: 20,
 
-    alignSelf:'center',
+    alignSelf: 'center',
     marginLeft: 20,
 
     borderStyle: 'solid',
-    borderBottomColor: '#EF4836',
-    borderBottomWidth:15,
+    borderBottomColor: 'black',
+    borderBottomWidth: 15,
 
-    borderLeftWidth:10,
+    borderLeftWidth: 10,
     borderLeftColor: 'transparent',
 
-    borderRightWidth:10,
+    borderRightWidth: 10,
     borderRightColor: 'transparent',
   },
-
   transformTriangleDown: {
-    transform: [
-      {rotate: '180deg'}
-    ]
+    transform: [{ rotate: '180deg' }],
   },
-
   transformTriangleLeft: {
-    marginLeft:-5,
-    marginRight:-1,
-    alignSelf:'center',
-    transform: [
-      {rotate: '90deg'}
-    ]
+    marginLeft: -5,
+    marginRight: -1,
+    alignSelf: 'center',
+    transform: [{ rotate: '90deg' }],
   },
-
   transformTriangleRight: {
-    marginLeft:-5,
-    marginRight:-1,
-    alignSelf:'center',
-    transform: [
-      {rotate: '270deg'}
-    ]
+    marginLeft: -5,
+    marginRight: -1,
+    alignSelf: 'center',
+    transform: [{ rotate: '270deg' }],
   },
-
   labelHeader : {
     margin: 20,
     color: 'white',
     fontWeight: '500',
   },
+  button: {
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: -10,
+  },
+  buttonTitle: {
+    fontSize: 17,
+    color: 'white',
+    fontWeight: '500',
+  },
 })
 
-MJCallout.propTypes = {arrowDirection: React.PropTypes.oneOf(['up', 'down', 'left', 'right'])};
-module.exports = MJCallout;
+MJCallout.propTypes = {
+  arrowDirection: React.PropTypes.oneOf(['up', 'down', 'left', 'right'])
+};
